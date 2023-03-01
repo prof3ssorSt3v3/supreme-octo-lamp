@@ -189,6 +189,17 @@ const APP = {
         day: 'numeric',
       };
       ul.innerHTML = APP.sst
+        .sort((a, b) => {
+          let dateA = new Date(a.dob);
+          let dateB = new Date(b.dob);
+          if (dateA.getMonth() > dateB.getMonth()) {
+            return 1;
+          } else if (dateB.getMonth() > dateA.getMonth()) {
+            return -1;
+          } else {
+            return dateA.getDate() - dateB.getDate();
+          }
+        })
         .map(({ id, name, dob }) => {
           let d = new Date(dob);
           let timeStr = new Intl.DateTimeFormat('en-CA', options).format(d);
