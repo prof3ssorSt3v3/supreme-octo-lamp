@@ -88,8 +88,9 @@ section {
   top: 4rem;
   left: 0;
   width: 100vw;
-  min-height: 100vh;
+  min-height: calc(100vh - 4rem);
   padding: 1rem;
+  border-bottom: 0.5rem solid var(--mintgreen);
 }
 body.personlist section#personlist,
 body.addperson section#addperson,
@@ -236,6 +237,7 @@ li {
   font-size: 1rem;
   padding: 0.25rem 1rem;
   margin: 0 0 0.5rem 0;
+  max-width: 600px;
 }
 .formBox label {
   font-size: 1rem;
@@ -246,6 +248,7 @@ li {
   border: none;
   appearance: none;
   margin-block: 1rem;
+  max-width: 600px;
   font-size: 1.5rem;
   font-weight: 100;
   padding: 0.25rem 2rem;
