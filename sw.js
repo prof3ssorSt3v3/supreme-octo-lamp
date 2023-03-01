@@ -1,4 +1,4 @@
-const version = 1;
+const version = 3;
 const cacheName = `giftrPwaSiteFiles${version}`;
 const cacheList = [
   './',
@@ -35,7 +35,13 @@ self.addEventListener('activate', (ev) => {
     caches
       .keys()
       .then((keys) => {
-        return Promise.all(keys.filter((key) => key !== cacheName).map((key) => caches.delete(key)));
+        return Promise.all(
+          keys
+            .filter((key) => {
+              return key !== cacheName && key !== 'GiftrPeopleCache';
+            })
+            .map((key) => caches.delete(key))
+        );
       })
       .catch(console.warn)
   );

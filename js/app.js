@@ -2,7 +2,7 @@ const APP = {
   currentPage: 'personlist',
   currentPerson: null,
   cacheRef: null,
-  cacheName: 'giftrpeoplecache',
+  cacheName: 'GiftrPeopleCache',
   sst: [],
   init() {
     APP.addListeners();
@@ -94,9 +94,17 @@ const APP = {
         let title = document.querySelector('#addperson h2 > span');
         if (APP.currentPerson == null) {
           title.textContent = 'Add';
+          //make sure form is empty
+          document.getElementById('personform').reset();
+          //hide delete and export buttons
+          document.getElementById('btnExport').classList.add('hidden');
+          document.getElementById('btnDeletePerson').classList.add('hidden');
           //nothing to add to the form
         } else {
           title.textContent = 'Edit';
+          //show the delete and export buttons
+          document.getElementById('btnExport').classList.remove('hidden');
+          document.getElementById('btnDeletePerson').classList.remove('hidden');
           //edit - populate the form
           let person = APP.sst.find((p) => p.id === APP.currentPerson);
           let d = new Date(person.dob);

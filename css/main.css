@@ -29,6 +29,7 @@ html {
 }
 body {
   min-height: 100vh;
+  overflow-x: hidden;
 }
 body.personlist {
   /* home page */
@@ -269,4 +270,8 @@ li {
 .formBox button i {
   margin-right: 1rem;
   font-size: 1.5rem;
+}
+
+.hidden {
+  transform: translateX(-500%);
 }
