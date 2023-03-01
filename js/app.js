@@ -85,7 +85,7 @@ const APP = {
     //navigate to new page
     document.body.className = page;
     APP.currentPage = page;
-    console.log('navigate to', page);
+    // console.log('navigate to', page);
     switch (page) {
       case 'personlist':
         //home page - show the list of people from sst, reset current person
@@ -112,7 +112,7 @@ const APP = {
           let person = APP.sst.find((p) => p.id === APP.currentPerson);
           let d = new Date(person.dob);
           let timeStr = d.toISOString().split('T')[0];
-          console.log('edit', timeStr);
+          // console.log('edit', timeStr);
           document.getElementById('name').value = person.name;
           document.getElementById('dob').value = timeStr;
         }
@@ -242,26 +242,25 @@ const APP = {
     person.name = form.elements['name'].value;
     person.dob = new Date(form.elements['dob'].value).valueOf();
     let filename = `${person.id}.json`;
-    console.log({ filename });
-    console.log(person);
+    // console.log(person);
     let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
     let request = new Request(filename);
     let response = new Response(file, { status: 200, statusText: 'OK', headers: { 'content-type': 'application/json' } });
     APP.cacheRef
       .put(request, response)
       .then(() => {
-        console.log('cache has been updated', APP.currentPerson);
+        // console.log('cache has been updated', APP.currentPerson);
         if (APP.currentPerson === null) {
-          console.log('add person to sst');
+          // console.log('add person to sst');
           APP.sst.push(person);
         } else {
-          console.log('edit person in sst');
+          // console.log('edit person in sst');
           APP.sst = APP.sst.map((p) => {
             if (p.id == APP.currentPerson) return person;
             return p;
           });
         }
-        console.log(APP.sst);
+        // console.log(APP.sst);
         form.reset();
         APP.navigate('personlist');
       })
@@ -325,7 +324,7 @@ const APP = {
   },
   deleteIdea(id) {
     //delete from the person, then update the cache, then update sst, then redraw gift list
-    console.log('delete gift', id);
+    // console.log('delete gift', id);
     let person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
     person.gifts = person.gifts.filter((gft) => gft.id !== id);
     let filename = `${person.id}.json`;
