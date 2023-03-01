@@ -84,7 +84,9 @@ main {
 }
 section {
   /* each page */
-  display: none;
+  /* display: none; */
+  opacity: 0;
+  transform: scale(0);
   position: absolute;
   top: 4rem;
   left: 0;
@@ -92,12 +94,15 @@ section {
   min-height: calc(100vh - 4rem);
   padding: 1rem;
   border-bottom: 0.5rem solid var(--mintgreen);
+  transition: opacity 0.6s linear 0s, transform 0.4s linear 0s;
 }
 body.personlist section#personlist,
 body.addperson section#addperson,
 body.giftlist section#giftlist,
 body.addgift section#addgift {
-  display: block;
+  /* display: block; */
+  opacity: 1;
+  transform: scale(1);
 }
 body.personlist #btnBack {
   display: none;

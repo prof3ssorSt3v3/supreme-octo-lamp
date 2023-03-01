@@ -1,4 +1,4 @@
-const version = 3;
+const version = 6;
 const cacheName = `giftrPwaSiteFiles${version}`;
 const cacheList = [
   './',
