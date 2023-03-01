@@ -196,7 +196,7 @@ li {
   margin: 0.25rem 0;
 }
 .gift__url a {
-  color: var(--poppy);
+  color: var(--photoblue);
 }
 .gift__actions {
   grid-area: actions;

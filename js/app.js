@@ -2,21 +2,7 @@ const APP = {
   currentPage: 'personlist',
   cacheRef: null,
   cacheName: 'giftrpeoplecache',
-  sst: [
-    {
-      id: crypto.randomUUID(),
-      name: 'fake name',
-      dob: Date.now(),
-      gifts: [
-        {
-          id: crypto.randomUUID(),
-          txt: 'fake gift idea',
-          store: 'walmart',
-          url: 'https://walmart.ca/',
-        },
-      ],
-    },
-  ],
+  sst: [],
   init() {
     APP.addListeners();
     APP.registerWorker();
@@ -104,12 +90,12 @@ const APP = {
         break;
       case 'addperson':
         //add edit person
-        //fetch the data from sst currentPerson != null
+        let title = document.querySelector('#addperson h2 > span');
         if (APP.currentPerson == null) {
-          //add a new person
+          title.textContent = 'Add';
           //nothing to add to the form
-          console.log('add new person');
         } else {
+          title.textContent = 'Edit';
           //edit - populate the form
           let person = APP.sst.find((p) => p.id === APP.currentPerson);
           let d = new Date(person.dob);
