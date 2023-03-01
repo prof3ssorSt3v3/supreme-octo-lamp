@@ -223,14 +223,26 @@ const APP = {
       person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
     }
     person.name = form.elements['name'].value;
-    person.dob = form.elements['dob'].value;
+    person.dob = new Date(form.elements['dob'].value).valueOf();
     let filename = `${person.id}.json`;
+    console.log({ filename });
+    console.log(person);
     let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
-    let request = new Request(file);
+    let request = new Request(filename);
     let response = new Response(file, { status: 200, statusText: 'OK', headers: { 'content-type': 'application/json' } });
     APP.cacheRef
       .put(request, response)
       .then(() => {
+        console.log('cache has been updated');
+        if (APP.currentPerson === null) {
+          APP.sst.push(person);
+        } else {
+          APP.sst = APP.sst.map((p) => {
+            if (p.id === APP.currentPerson) return person;
+            return p;
+          });
+        }
+        console.log(APP.sst);
         form.reset();
         APP.navigate('personlist');
       })
@@ -243,6 +255,9 @@ const APP = {
     APP.cacheRef
       .delete(request)
       .then(() => {
+        //update the sst
+        APP.sst = APP.sst.filter((person) => person.id !== APP.currentPerson);
+        //then back to personlist
         APP.navigate('personlist');
       })
       .catch(APP.displayError);
@@ -250,7 +265,7 @@ const APP = {
   exportPerson(ev) {
     ev.preventDefault();
     let person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
-    let filename = `${person.id}.json`;
+    let filename = `${person.name}.json`;
     let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
     let a = document.createElement('a');
     a.href = URL.createObjectURL(file);
@@ -272,11 +287,15 @@ const APP = {
     person.gifts.push(gift);
     let filename = `${person.id}.json`;
     let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
-    let request = new Request(file);
+    let request = new Request(filename);
     let response = new Response(file, { status: 200, statusText: 'OK', headers: { 'content-type': 'application/json' } });
     APP.cacheRef
       .put(request, response)
       .then(() => {
+        APP.sst = APP.sst.map((p) => {
+          if (p.id === APP.currentPerson) return person;
+          return p;
+        });
         form.reset();
         APP.navigate('giftlist');
       })
