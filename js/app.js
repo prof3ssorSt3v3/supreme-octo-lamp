@@ -203,8 +203,13 @@ const APP = {
         .map(({ id, name, dob }) => {
           let d = new Date(dob);
           let timeStr = new Intl.DateTimeFormat('en-CA', options).format(d);
-
-          return `<li class="person" data-ref="${id}">
+          //TODO: style for dates past and future
+          let today = new Date();
+          let dateClass = 'past';
+          if (d.getMonth() >= today.getMonth() && d.getDate() >= today.getDate()) {
+            dateClass = 'future';
+          }
+          return `<li class="person ${dateClass}" data-ref="${id}">
           <p class="person__name">${name}</p>
           <p class="person__dob"><time>${timeStr}</time></p>
           <p class="person__actions">
@@ -215,6 +220,7 @@ const APP = {
         })
         .join('');
       section.append(ul);
+      section.querySelectorAll('li.future')[0].classList.add('nextup');
     }
   },
   savePerson(ev) {

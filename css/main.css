@@ -6,6 +6,7 @@
   --poppy: #d64045;
   /*https://coolors.co/d64045-e9fff9-9ed8db-467599-1d3354 */
   --white: #e4e4e4;
+  --partialblue: hsla(220, 90%, 80%, 0.32);
   --black: #191919;
   --grey: #555555;
 
@@ -127,19 +128,28 @@ li {
   padding: 0.5rem 1rem;
   border-top: 1px solid var(--grey);
 }
+.person.nextup {
+  background-color: var(--partialblue);
+}
+.person.past .person__name,
+.person.past .person__dob {
+  color: var(--uclablue);
+}
+.person.future .person__name,
+.person.future .person__dob {
+  color: var(--mintgreen);
+}
 .person:last-child {
   border-bottom: 1px solid var(--grey);
 }
 .person__name {
   grid-area: name;
   font-size: 1.5rem;
-  color: var(--white);
   margin: 0.25rem 0;
 }
 .person__dob {
   grid-area: dob;
   font-size: 1rem;
-  color: var(--white);
   margin: 0.25rem 0;
 }
 .person__actions {
