@@ -62,7 +62,7 @@ const APP = {
         objects.forEach((obj) => APP.sst.push(obj));
         APP.showPeople();
       })
-      .catch(console.warn);
+      .catch(APP.displayError);
   },
   goAdd(ev) {
     ev.preventDefault();
@@ -211,9 +211,30 @@ const APP = {
   savePerson(ev) {
     ev.preventDefault();
     let form = document.getElementById('personform');
-    //TODO: ...
-    form.reset();
-    APP.navigate('personlist');
+    let person;
+    if (APP.currentPerson == null) {
+      person = {
+        id: crypto.randomUUID(),
+        name: '',
+        dob: '',
+        gifts: [],
+      };
+    } else {
+      person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
+    }
+    person.name = form.elements['name'].value;
+    person.dob = form.elements['dob'].value;
+    let filename = `${person.id}.json`;
+    let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
+    let request = new Request(file);
+    let response = new Response(file, { status: 200, statusText: 'OK', headers: { 'content-type': 'application/json' } });
+    APP.cacheRef
+      .put(request, response)
+      .then(() => {
+        form.reset();
+        APP.navigate('personlist');
+      })
+      .catch(APP.displayError);
   },
   deletePerson(ev) {
     ev.preventDefault();
@@ -224,7 +245,7 @@ const APP = {
       .then(() => {
         APP.navigate('personlist');
       })
-      .catch(console.warn);
+      .catch(APP.displayError);
   },
   exportPerson(ev) {
     ev.preventDefault();
@@ -259,7 +280,11 @@ const APP = {
       .then(() => {
         APP.navigate('giftlist');
       })
-      .catch(console.warn);
+      .catch(APP.displayError);
+  },
+  displayError(err) {
+    console.warn(err);
+    //show error on page TODO:
   },
 };
 
