@@ -1,0 +1,216 @@
+:root {
+  --delftblue: #1d3354;
+  --uclablue: #467599;
+  --photoblue: #9ed8db;
+  --mintgreen: #e9fff9;
+  --poppy: #d64045;
+  /*https://coolors.co/d64045-e9fff9-9ed8db-467599-1d3354 */
+  --white: #e4e4e4;
+  --black: #191919;
+  --grey: #555555;
+
+  --danger: hsl(0, 60%, 50%);
+  --success: hsl(100, 60%, 40%);
+
+  --sansfonts: 'Space Grotesk', sans-serif;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  font-size: 20px;
+  font-family: var(--sansfonts);
+  font-weight: 300;
+  line-height: 1.5;
+  background-color: var(--delftblue);
+  color: var(--white);
+}
+body {
+  min-height: 100vh;
+}
+body.personlist {
+  /* home page */
+}
+body.addperson {
+  /* add-edit person */
+}
+body.giftlist {
+  /* gift list */
+}
+body.addgift {
+  /* add gift */
+}
+header {
+  min-height: 4rem;
+  background-color: var(--uclablue);
+  color: var(--delftblue);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--mintgreen);
+}
+header h1 {
+  font-size: 2rem;
+  font-weight: 300;
+  padding: 0.5rem 2rem;
+  color: var(--photoblue);
+  text-align: center;
+}
+header p {
+  display: grid;
+  place-content: center;
+}
+header button {
+  font-size: 2rem;
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-content: center;
+  color: var(--mintgreen);
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  background-color: transparent;
+}
+main {
+  position: relative;
+}
+section {
+  /* each page */
+  display: none;
+  position: absolute;
+  top: 4rem;
+  left: 0;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 1rem;
+}
+body.personlist section#personlist,
+body.addperson section#addperson,
+body.giftlist section#giftlist,
+body.addgift section#addgift {
+  display: block;
+}
+body.personlist #btnBack {
+  display: none;
+}
+body.addperson #btnAdd {
+  display: none;
+}
+body.addgift #btnAdd {
+  display: none;
+}
+li {
+  padding: 0.5rem 1rem;
+  margin-inline: -1rem;
+  list-style: none;
+}
+.person {
+  display: grid;
+  grid-template-areas:
+    'name actions'
+    'dob actions';
+  grid-template-columns: 3fr 1fr;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--grey);
+}
+.person:last-child {
+  border-bottom: 1px solid var(--grey);
+}
+.person__name {
+  grid-area: name;
+  font-size: 1.5rem;
+  color: var(--white);
+  margin: 0.25rem 0;
+}
+.person__dob {
+  grid-area: dob;
+  font-size: 1rem;
+  color: var(--white);
+  margin: 0.25rem 0;
+}
+.person__actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.person__actions button {
+  border: none;
+  background-color: var(--uclablue);
+  color: var(--white);
+  height: 3rem;
+  width: 3rem;
+  border-radius: 0.5rem;
+}
+.person__actions button:is(.btnGifts) {
+  background-color: var(--mintgreen);
+  color: var(--black);
+}
+.btnEdit i {
+  font-size: 54px;
+}
+.btnDelete i {
+  font-size: 54px;
+}
+.btnGifts i {
+  font-size: 54px;
+}
+
+.gift__actions button:is(.btnDelete) {
+  background-color: var(--poppy);
+  color: var(--black);
+}
+
+#personform,
+#giftform {
+  padding-block: 1rem;
+}
+.formBox {
+  padding: 0rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.formBox input {
+  font-size: 1rem;
+  padding: 0.25rem 1rem;
+  margin: 0 0 0.5rem 0;
+}
+.formBox label {
+  font-size: 1rem;
+  padding: 0.25rem 1rem;
+  margin: 0.5rem 0 0 0;
+}
+.formBox button {
+  border: none;
+  appearance: none;
+  margin-block: 1rem;
+  font-size: 1.5rem;
+  font-weight: 100;
+  padding: 0.25rem 2rem;
+  background-color: var(--photoblue);
+  color: var(--black);
+  display: flex;
+  place-content: center;
+}
+.formBox button#btnSaveIdea,
+.formBox button#btnSavePerson {
+  background-color: var(--success);
+  color: var(--white);
+}
+.formBox button#btnDeletePerson {
+  background-color: var(--danger);
+  color: var(--white);
+}
+.formBox button i {
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
