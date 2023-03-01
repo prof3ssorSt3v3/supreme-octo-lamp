@@ -6,8 +6,15 @@ const APP = {
     {
       id: crypto.randomUUID(),
       name: 'fake name',
-      date: Date.now(),
-      gifts: [],
+      dob: Date.now(),
+      gifts: [
+        {
+          id: crypto.randomUUID(),
+          txt: 'fake gift idea',
+          store: 'walmart',
+          url: 'https://walmart.ca/',
+        },
+      ],
     },
   ],
   init() {
@@ -30,10 +37,9 @@ const APP = {
     document.getElementById('btnDeletePerson').addEventListener('click', APP.deletePerson);
     document.getElementById('btnExport').addEventListener('click', APP.exportPerson);
 
-    document.getElementById('personlist').addEventListener('click', APP.handleGiftList);
+    document.getElementById('giftlist').addEventListener('click', APP.handleGiftList);
 
     document.getElementById('btnSaveIdea').addEventListener('click', APP.saveIdea);
-    // document.getElementById('btnDeleteIdea').addEventListener('click', APP.deleteIdea);
   },
   loadData() {
     //open the cache, save cacheRef, read all the files into sst
@@ -100,9 +106,17 @@ const APP = {
         //add edit person
         //fetch the data from sst currentPerson != null
         if (APP.currentPerson == null) {
-          //add
+          //add a new person
+          //nothing to add to the form
+          console.log('add new person');
         } else {
-          //edit
+          //edit - populate the form
+          let person = APP.sst.find((p) => p.id === APP.currentPerson);
+          let d = new Date(person.dob);
+          let timeStr = d.toISOString().split('T')[0];
+          console.log('edit', timeStr);
+          document.getElementById('name').value = person.name;
+          document.getElementById('dob').value = timeStr;
         }
         break;
       case 'giftlist':
@@ -110,7 +124,7 @@ const APP = {
         APP.showGifts();
         break;
       case 'addgift':
-        //
+        //add a new gift. no need to populate the form
         break;
     }
   },
@@ -120,7 +134,10 @@ const APP = {
     let li = target.closest('.gift');
     if (li) {
       let btn = target.closest('button');
-      //TODO:
+      if (btn.classList.contains('btnDelete')) {
+        let id = li.getAttribute('data-ref');
+        APP.deleteIdea(id);
+      }
     }
   },
   handlePersonList(ev) {
@@ -174,8 +191,8 @@ const APP = {
         day: 'numeric',
       };
       ul.innerHTML = APP.sst
-        .map(({ id, name, date }) => {
-          let d = new Date(date);
+        .map(({ id, name, dob }) => {
+          let d = new Date(dob);
           let timeStr = new Intl.DateTimeFormat('en-CA', options).format(d);
 
           return `<li class="person" data-ref="${id}">
@@ -193,18 +210,56 @@ const APP = {
   },
   savePerson(ev) {
     ev.preventDefault();
+    let form = document.getElementById('personform');
+    //TODO: ...
+    form.reset();
+    APP.navigate('personlist');
   },
   deletePerson(ev) {
     ev.preventDefault();
+    let filename = `${APP.currentPerson}.json`;
+    let request = new Request(filename);
+    APP.cacheRef
+      .delete(request)
+      .then(() => {
+        APP.navigate('personlist');
+      })
+      .catch(console.warn);
   },
   exportPerson(ev) {
     ev.preventDefault();
+    let person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
+    let filename = `${person.id}.json`;
+    let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
+    let a = document.createElement('a');
+    a.href = URL.createObjectURL(file);
+    a.download = filename;
+    a.click();
   },
   saveIdea(ev) {
     ev.preventDefault();
+    //save the gift object in the current person in the cache and then in the APP.sst,
+    // then reset, then back to giftlist
+    let form = document.getElementById('giftform');
+    //TODO: ...
+    form.reset();
+    APP.navigate('giftlist');
   },
-  deleteIdea(ev) {
-    ev.preventDefault();
+  deleteIdea(id) {
+    //delete from the person, then update the cache, then update sst, then redraw gift list
+    console.log('delete gift', id);
+    let person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
+    person.gifts = person.gifts.filter((gft) => gft.id !== id);
+    let filename = `${person.id}.json`;
+    let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
+    let request = new Request(filename);
+    let response = new Response(file, { status: 200, statusText: 'OK', headers: { 'content-type': 'application/json' } });
+    APP.cacheRef
+      .put(request, response)
+      .then(() => {
+        APP.navigate('giftlist');
+      })
+      .catch(console.warn);
   },
 };
 

@@ -165,9 +165,62 @@ li {
   font-size: 54px;
 }
 
+.gift {
+  display: grid;
+  grid-template-areas:
+    'name actions'
+    'store actions'
+    'url actions';
+  grid-template-columns: 4fr 1fr;
+  padding: 0.5rem 1rem;
+  border-top: 1px solid var(--grey);
+}
+.gift:last-child {
+  border-bottom: 1px solid var(--grey);
+}
+.gift__name {
+  grid-area: name;
+  font-size: 1.5rem;
+  color: var(--white);
+  margin: 0.25rem 0;
+}
+.gift__store {
+  grid-area: store;
+  font-size: 1rem;
+  color: var(--white);
+  margin: 0.25rem 0;
+}
+.gift__url {
+  grid-area: url;
+  font-size: 1rem;
+  margin: 0.25rem 0;
+}
+.gift__url a {
+  color: var(--poppy);
+}
+.gift__actions {
+  grid-area: actions;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.gift__actions button {
+  border: none;
+  background-color: var(--uclablue);
+  color: var(--white);
+  height: 3rem;
+  width: 3rem;
+  border-radius: 0.5rem;
+}
+.gift__actions button:is(.btnGifts) {
+  background-color: var(--mintgreen);
+  color: var(--black);
+}
 .gift__actions button:is(.btnDelete) {
   background-color: var(--poppy);
-  color: var(--black);
+  color: var(--white);
 }
 
 #personform,
