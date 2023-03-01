@@ -1,5 +1,6 @@
 const APP = {
   currentPage: 'personlist',
+  currentPerson: null,
   cacheRef: null,
   cacheName: 'giftrpeoplecache',
   sst: [],
@@ -219,12 +220,14 @@ const APP = {
     APP.cacheRef
       .put(request, response)
       .then(() => {
-        console.log('cache has been updated');
+        console.log('cache has been updated', APP.currentPerson);
         if (APP.currentPerson === null) {
+          console.log('add person to sst');
           APP.sst.push(person);
         } else {
+          console.log('edit person in sst');
           APP.sst = APP.sst.map((p) => {
-            if (p.id === APP.currentPerson) return person;
+            if (p.id == APP.currentPerson) return person;
             return p;
           });
         }
@@ -243,6 +246,9 @@ const APP = {
       .then(() => {
         //update the sst
         APP.sst = APP.sst.filter((person) => person.id !== APP.currentPerson);
+
+        let form = document.getElementById('personform');
+        form.reset();
         //then back to personlist
         APP.navigate('personlist');
       })
