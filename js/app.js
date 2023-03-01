@@ -149,10 +149,10 @@ const APP = {
       //clicked somewhere inside a li.person
       let btn = target.closest('button');
       APP.currentPerson = li.getAttribute('data-ref');
-      if (btn.classList.contains('btnEdit')) {
+      if (btn && btn.classList.contains('btnEdit')) {
         APP.navigate('addperson');
       }
-      if (btn.classList.contains('btnGifts')) {
+      if (btn && btn.classList.contains('btnGifts')) {
         APP.navigate('giftlist');
       }
     }
