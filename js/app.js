@@ -21,12 +21,15 @@ const APP = {
     document.getElementById('personlist').addEventListener('click', APP.handlePersonList);
 
     document.getElementById('btnSavePerson').addEventListener('click', APP.savePerson);
+    document.getElementById('personform').addEventListener('submit', APP.savePerson);
+
     document.getElementById('btnDeletePerson').addEventListener('click', APP.deletePerson);
     document.getElementById('btnExport').addEventListener('click', APP.exportPerson);
 
     document.getElementById('giftlist').addEventListener('click', APP.handleGiftList);
 
     document.getElementById('btnSaveIdea').addEventListener('click', APP.saveIdea);
+    document.getElementById('giftform').addEventListener('submit', APP.saveIdea);
   },
   loadData() {
     //open the cache, save cacheRef, read all the files into sst
@@ -203,7 +206,6 @@ const APP = {
         .map(({ id, name, dob }) => {
           let d = new Date(dob);
           let timeStr = new Intl.DateTimeFormat('en-CA', options).format(d);
-          //TODO: style for dates past and future
           let today = new Date();
           let dateClass = 'past';
           if (d.getMonth() >= today.getMonth() && d.getDate() >= today.getDate()) {
