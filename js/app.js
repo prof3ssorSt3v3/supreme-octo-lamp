@@ -262,9 +262,25 @@ const APP = {
     //save the gift object in the current person in the cache and then in the APP.sst,
     // then reset, then back to giftlist
     let form = document.getElementById('giftform');
-    //TODO: ...
-    form.reset();
-    APP.navigate('giftlist');
+    let person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
+    let gift = {
+      id: crypto.randomUUID(),
+      txt: form.elements['idea'].value,
+      store: form.elements['store'].value,
+      url: form.elements['url'].value,
+    };
+    person.gifts.push(gift);
+    let filename = `${person.id}.json`;
+    let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
+    let request = new Request(file);
+    let response = new Response(file, { status: 200, statusText: 'OK', headers: { 'content-type': 'application/json' } });
+    APP.cacheRef
+      .put(request, response)
+      .then(() => {
+        form.reset();
+        APP.navigate('giftlist');
+      })
+      .catch(APP.displayError);
   },
   deleteIdea(id) {
     //delete from the person, then update the cache, then update sst, then redraw gift list
