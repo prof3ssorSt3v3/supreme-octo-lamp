@@ -127,6 +127,13 @@ li {
   grid-template-columns: 3fr 1fr;
   padding: 0.5rem 1rem;
   border-top: 1px solid var(--grey);
+  /* for reveal */
+  opacity: 0;
+  transition: opacity 0.1s linear;
+}
+.person.revealed,
+.gift.revealed {
+  opacity: 1;
 }
 .person.nextup {
   background-color: var(--partialblue);
@@ -191,6 +198,9 @@ li {
   grid-template-columns: 4fr 1fr;
   padding: 0.5rem 1rem;
   border-top: 1px solid var(--grey);
+  /* for reveal */
+  opacity: 0;
+  transition: opacity 0.1s linear;
 }
 .gift:last-child {
   border-bottom: 1px solid var(--grey);

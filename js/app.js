@@ -182,6 +182,8 @@ const APP = {
         </li>`;
         })
         .join('');
+      //reveal the list one item at a time
+      APP.revealItems('.gift');
     }
   },
   showPeople() {
@@ -226,7 +228,19 @@ const APP = {
         })
         .join('');
       section.append(ul);
+      //style the next closest item to today
       section.querySelectorAll('li.future')[0].classList.add('nextup');
+      //reveal the list one item at a time
+      APP.revealItems('.person');
+    }
+  },
+  async revealItems(selector) {
+    let items = document.querySelectorAll(selector);
+    let totalTime = 800; //0.8 seconds to show the whole list
+    let timmy = totalTime / items.length;
+    for await (let item of items) {
+      await APP.delay(timmy);
+      item.classList.add('revealed');
     }
   },
   savePerson(ev) {
@@ -341,6 +355,11 @@ const APP = {
         APP.navigate('giftlist');
       })
       .catch(APP.displayError);
+  },
+  delay(timmy = 1000) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timmy);
+    });
   },
   displayError(err) {
     console.warn(err);
