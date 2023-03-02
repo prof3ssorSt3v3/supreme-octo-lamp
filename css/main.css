@@ -207,6 +207,9 @@ li {
   color: var(--white);
   margin: 0.25rem 0;
 }
+.gift__store:empty {
+  display: none;
+}
 .gift__url {
   grid-area: url;
   font-size: 1rem;
@@ -214,6 +217,9 @@ li {
 }
 .gift__url a {
   color: var(--photoblue);
+}
+.gift__url:has(a:empty) {
+  display: none;
 }
 .gift__actions {
   grid-area: actions;
