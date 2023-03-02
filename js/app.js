@@ -244,7 +244,7 @@ const APP = {
       person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
     }
     person.name = form.elements['name'].value;
-    person.dob = new Date(form.elements['dob'].value).valueOf();
+    person.dob = new Date(`${form.elements['dob'].value} 00:00:00`).valueOf();
     let filename = `${person.id}.json`;
     // console.log(person);
     let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
