@@ -95,6 +95,8 @@ const APP = {
       case 'addperson':
         //add edit person
         let title = document.querySelector('#addperson h2 > span');
+        //focus on name field
+        document.getElementById('name').focus();
         if (APP.currentPerson == null) {
           title.textContent = 'Add';
           //make sure form is empty
@@ -123,6 +125,8 @@ const APP = {
         break;
       case 'addgift':
         //add a new gift. no need to populate the form
+        //focus on idea name field
+        document.getElementById('idea').focus();
         break;
     }
   },
