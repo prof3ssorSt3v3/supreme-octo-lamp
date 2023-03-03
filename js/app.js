@@ -275,7 +275,9 @@ const APP = {
     }
     person.name = form.elements['name'].value;
     //TODO: add the proper handling for Timezones
-    person.dob = new Date(`${form.elements['dob'].value} 00:00:00`).valueOf();
+    const dob = new Date(form.elements['dob'].value);
+    person.dob = new Date(dob.getTime() - dob.getTimezoneOffset() * -60000);
+    console.log(person.dob);
     let filename = `${person.id}.json`;
     // console.log(person);
     let file = new File([JSON.stringify(person)], filename, { type: 'application/json' });
