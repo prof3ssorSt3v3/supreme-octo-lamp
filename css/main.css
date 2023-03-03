@@ -317,3 +317,40 @@ label[data-error]::after {
   color: var(--danger);
   font-size: 1.2rem;
 }
+
+@media screen and (min-width: 1000px) {
+  header {
+    grid-template-columns: 2fr 3fr 2fr;
+  }
+  header h1 {
+    font-size: 4rem;
+    letter-spacing: 2px;
+  }
+  header button {
+    font-size: 3rem;
+    width: 3rem;
+    height: 3rem;
+  }
+  header button .material-symbols-outlined {
+    font-size: 3rem;
+  }
+  section {
+    top: 7rem;
+  }
+  .person,
+  .gift {
+    padding: 0.5rem 3rem;
+    max-width: 1200px;
+    margin-inline: auto;
+  }
+  .person__name,
+  .gift__name {
+    font-size: 2rem;
+  }
+  .person__dob,
+  .gift__store,
+  .gift__url {
+    font-size: 1.5rem;
+    font-weight: 300;
+  }
+}
