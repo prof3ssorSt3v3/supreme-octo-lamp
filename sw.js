@@ -81,7 +81,10 @@ function staleWhileRevalidate(ev) {
 
 function cacheOnly(ev) {
   //only the response from the cache
-  return caches.match(ev.request);
+  return caches.match(ev.request).then((response) => {
+    if (ev.request.mode === 'navigate' && !response) return caches.match('./');
+    return response;
+  });
 }
 
 function fetchOnly(ev) {
