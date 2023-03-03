@@ -340,6 +340,10 @@ label[data-error]::after {
   section {
     top: 7rem;
   }
+  section h2 {
+    max-width: 1200px;
+    margin-inline: auto;
+  }
   .person,
   .gift {
     padding: 0.5rem 3rem;
