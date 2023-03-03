@@ -138,8 +138,7 @@ const APP = {
       let btn = target.closest('button');
       if (btn.classList.contains('btnDelete')) {
         let id = li.getAttribute('data-ref');
-        const confirm = confirm('The DELETE is permanent. Continue?');
-        if (confirm) {
+        if (confirm('The DELETE is permanent. Continue?')) {
           APP.deleteIdea(id);
         }
       }
