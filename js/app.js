@@ -386,7 +386,7 @@ const APP = {
   },
   displayError(err) {
     console.warn(err);
-    //show error on page TODO:
+    //show error on page TODO: use a Web Component
   },
   handleError(ev) {
     //handle thrown errors
@@ -396,12 +396,14 @@ const APP = {
     let err = ev.error;
     switch (err.name) {
       case 'NetworkError':
+        APP.displayError(err);
         break;
       case 'EmptyInputError':
         //add the data-error message to the label
         err.input.previousElementSibling.setAttribute('data-error', err.message);
         break;
       case 'CacheError':
+        APP.displayError(err);
         break;
       default:
       //generic Error
