@@ -274,8 +274,7 @@ const APP = {
       person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
     }
     person.name = form.elements['name'].value;
-    //TODO: add the proper handling for Timezones
-    const dob = new Date(form.elements['dob'].value);
+    const dob = new Date(form.elements['dob'].value); //might be wrong depending on time of day
     person.dob = new Date(dob.getTime() - dob.getTimezoneOffset() * -60000);
     console.log(person.dob);
     let filename = `${person.id}.json`;
@@ -305,20 +304,22 @@ const APP = {
   },
   deletePerson(ev) {
     ev.preventDefault();
-    let filename = `${APP.currentPerson}.json`;
-    let request = new Request(filename);
-    APP.cacheRef
-      .delete(request)
-      .then(() => {
-        //update the sst
-        APP.sst = APP.sst.filter((person) => person.id !== APP.currentPerson);
+    if (confirm('Are you sure? This is permanent.')) {
+      let filename = `${APP.currentPerson}.json`;
+      let request = new Request(filename);
+      APP.cacheRef
+        .delete(request)
+        .then(() => {
+          //update the sst
+          APP.sst = APP.sst.filter((person) => person.id !== APP.currentPerson);
 
-        let form = document.getElementById('personform');
-        form.reset();
-        //then back to personlist
-        APP.navigate('personlist');
-      })
-      .catch(APP.displayError);
+          let form = document.getElementById('personform');
+          form.reset();
+          //then back to personlist
+          APP.navigate('personlist');
+        })
+        .catch(APP.displayError);
+    }
   },
   exportPerson(ev) {
     ev.preventDefault();
