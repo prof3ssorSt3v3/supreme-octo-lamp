@@ -274,6 +274,7 @@ const APP = {
       person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
     }
     person.name = form.elements['name'].value;
+    //TODO: add the proper handling for Timezones
     person.dob = new Date(`${form.elements['dob'].value} 00:00:00`).valueOf();
     let filename = `${person.id}.json`;
     // console.log(person);
@@ -340,11 +341,19 @@ const APP = {
       throw new EmptyInputError('Missing Location', form.elements['store']);
     }
     let person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
+    let url = form.elements['url'].value.trim();
+    if (url) {
+      if (!url.startsWith('http')) {
+        //prepend url with 'https://' if it has a value
+        //We could also do testing for valid URL strings...
+        url = 'https://'.concat(url);
+      }
+    }
     let gift = {
       id: crypto.randomUUID(),
       txt: form.elements['idea'].value,
       store: form.elements['store'].value,
-      url: form.elements['url'].value,
+      url: url,
     };
     person.gifts.push(gift);
     let filename = `${person.id}.json`;
