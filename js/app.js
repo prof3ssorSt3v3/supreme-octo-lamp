@@ -17,6 +17,8 @@ const APP = {
     }
   },
   addListeners() {
+    window.addEventListener('error', APP.handleError);
+
     document.getElementById('btnAdd').addEventListener('click', APP.goAdd);
     document.getElementById('btnBack').addEventListener('click', APP.goBack);
 
@@ -24,6 +26,9 @@ const APP = {
 
     document.getElementById('btnSavePerson').addEventListener('click', APP.savePerson);
     document.getElementById('personform').addEventListener('submit', APP.savePerson);
+
+    document.getElementById('personform').addEventListener('reset', APP.clearFormErrors);
+    document.getElementById('giftform').addEventListener('reset', APP.clearFormErrors);
 
     document.getElementById('btnDeletePerson').addEventListener('click', APP.deletePerson);
     document.getElementById('btnExport').addEventListener('click', APP.exportPerson);
@@ -127,6 +132,8 @@ const APP = {
         break;
       case 'addgift':
         //add a new gift. no need to populate the form
+        //make sure form is empty
+        document.getElementById('giftform').reset();
         //focus on idea name field
         document.getElementById('idea').focus();
         break;
@@ -248,6 +255,13 @@ const APP = {
   savePerson(ev) {
     ev.preventDefault();
     let form = document.getElementById('personform');
+    APP.clearFormErrors(form);
+    if (!form.elements['name'].value) {
+      throw new EmptyInputError('Missing name', form.elements['name']);
+    }
+    if (!form.elements['dob'].value) {
+      throw new EmptyInputError('Missing date', form.elements['dob']);
+    }
     let person;
     if (APP.currentPerson == null) {
       person = {
@@ -318,6 +332,13 @@ const APP = {
     //save the gift object in the current person in the cache and then in the APP.sst,
     // then reset, then back to giftlist
     let form = document.getElementById('giftform');
+    APP.clearFormErrors(form);
+    if (!form.elements['idea'].value) {
+      throw new EmptyInputError('Missing Idea', form.elements['idea']);
+    }
+    if (!form.elements['store'].value) {
+      throw new EmptyInputError('Missing Location', form.elements['store']);
+    }
     let person = APP.sst.find((prsn) => prsn.id === APP.currentPerson);
     let gift = {
       id: crypto.randomUUID(),
@@ -366,6 +387,37 @@ const APP = {
   displayError(err) {
     console.warn(err);
     //show error on page TODO:
+  },
+  handleError(ev) {
+    //handle thrown errors
+    console.warn(ev);
+    //stops the error appearing in the console
+    ev.preventDefault();
+    let err = ev.error;
+    switch (err.name) {
+      case 'NetworkError':
+        break;
+      case 'EmptyInputError':
+        //add the data-error message to the label
+        err.input.previousElementSibling.setAttribute('data-error', err.message);
+        break;
+      case 'CacheError':
+        break;
+      default:
+      //generic Error
+    }
+  },
+  clearFormErrors(ev) {
+    //clear out data-err values in a form
+    let form;
+    if (ev instanceof Event) {
+      form = ev.target;
+    } else {
+      form = ev;
+    }
+    form.querySelectorAll('label[data-error]').forEach((label) => {
+      label.removeAttribute('data-error');
+    });
   },
 };
 

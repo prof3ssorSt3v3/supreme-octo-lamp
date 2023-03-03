@@ -57,12 +57,12 @@
         <h2><span>Add|Edit</span> Person</h2>
         <form id="personform">
           <div class="formBox">
-            <label for="name">Name</label>
-            <input type="text" id="name" name="name" maxlength="80" required />
+            <label for="name">Name </label>
+            <input type="text" id="name" name="name" maxlength="80" placeholder="person's name" required />
           </div>
           <div class="formBox">
-            <label for="dob">Date of Birth</label>
-            <input type="date" id="dob" name="dob" required />
+            <label for="dob">Date of Birth </label>
+            <input type="date" id="dob" name="dob" pattern="\d{4}-\d{2}-\d{2}" required />
           </div>
           <div class="formBox">
             <button id="btnSavePerson"><i class="material-symbols-outlined">save</i> Save</button>

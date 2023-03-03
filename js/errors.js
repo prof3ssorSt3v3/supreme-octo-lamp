@@ -3,6 +3,7 @@ class NetworkError extends Error {
   constructor(msg, response) {
     super(msg);
     this.name = 'NetworkError';
+    this.type = 'NetworkError';
     this.status = response.status;
     this.response = response;
   }
@@ -13,6 +14,7 @@ class EmptyInputError extends Error {
   constructor(msg, input) {
     super(msg);
     this.name = 'EmptyInputError';
+    this.type = 'EmptyInputError';
     this.input = input; //reference to the input element
   }
 }
@@ -22,6 +24,7 @@ class CacheError extends Error {
   constructor(msg, cacheName) {
     super(msg);
     this.name = 'CacheError';
+    this.type = 'CacheError';
     this.cacheName = cacheName;
   }
 }

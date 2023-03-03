@@ -10,7 +10,7 @@
   --black: #191919;
   --grey: #555555;
 
-  --danger: hsl(0, 60%, 50%);
+  --danger: hsl(0, 80%, 80%);
   --success: hsl(100, 60%, 40%);
 
   --sansfonts: 'Space Grotesk', sans-serif;
@@ -305,4 +305,15 @@ li {
 
 .hidden {
   transform: translateX(-500%);
+}
+label[data-error] {
+  /* outline: 0.25rem solid var(--poppy); */
+  /* for input type="text" if not focused and not empty */
+  color: transparent;
+  font-size: 1px;
+}
+label[data-error]::after {
+  content: attr(data-error);
+  color: var(--danger);
+  font-size: 1.2rem;
 }
