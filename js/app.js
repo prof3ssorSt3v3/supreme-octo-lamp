@@ -175,9 +175,9 @@ const APP = {
     if (!person) APP.navigate('personlist');
     let section = document.getElementById('giftlist');
     if (person.gifts.length === 0) {
-      section.innerHTML = `<h2>No Gift Ideas Yet</h2><p>Click the add button in the top bar to add an idea.</p>`;
+      section.innerHTML = `<h2>No Ideas for ${person.name} Yet</h2><p>Click the add button in the top bar to add an idea.</p>`;
     } else {
-      section.innerHTML = `<ul class="gifts"></ul>`;
+      section.innerHTML = `<h2>Ideas for ${person.name}</h2><ul class="gifts"></ul>`;
       let ul = section.querySelector('ul');
       ul.innerHTML = person.gifts
         .map((gift) => {
