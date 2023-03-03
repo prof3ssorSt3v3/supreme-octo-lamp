@@ -67,6 +67,9 @@ function staleWhileRevalidate(ev) {
   //return cache then fetch and save latest fetch
   return caches.match(ev.request).then((cacheResponse) => {
     let fetchResponse = fetch(ev.request).then((response) => {
+      //handle 404 errors by returning the home page
+      if (response.status === 404 && ev.request.mode === 'navigate') return caches.match('./');
+
       return caches.open(cacheName).then((cache) => {
         cache.put(ev.request, response.clone());
         return response;
@@ -83,5 +86,10 @@ function cacheOnly(ev) {
 
 function fetchOnly(ev) {
   //only the result of a fetch
-  return fetch(ev.request);
+  return fetch(ev.request).then((response) => {
+    //return index.html if we get a 404 error for a web page
+    if (response.status === 404 && ev.request.mode === 'navigate') return caches.match('./');
+    //return valid fetch responses
+    return response;
+  });
 }
