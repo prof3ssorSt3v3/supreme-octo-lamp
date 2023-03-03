@@ -1,3 +1,5 @@
+import { NetworkError, EmptyInputError, CacheError } from './errors.js';
+
 const APP = {
   currentPage: 'personlist',
   currentPerson: null,
@@ -139,6 +141,7 @@ const APP = {
       if (btn.classList.contains('btnDelete')) {
         let id = li.getAttribute('data-ref');
         if (confirm('The DELETE is permanent. Continue?')) {
+          //BEST PRACTICE - would be to build our own HTML based confirmation modal.
           APP.deleteIdea(id);
         }
       }
