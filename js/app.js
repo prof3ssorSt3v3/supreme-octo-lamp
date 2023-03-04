@@ -431,7 +431,8 @@ const APP = {
         APP.displayError(err);
         break;
       default:
-      //generic Error
+        //generic Error
+        APP.displayError(err);
     }
   },
   clearFormErrors(ev) {
