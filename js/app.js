@@ -1,4 +1,5 @@
 import { NetworkError, EmptyInputError, CacheError } from './errors.js';
+import './modal-notice.js';
 
 const APP = {
   currentPage: 'personlist',
@@ -10,6 +11,10 @@ const APP = {
     APP.addListeners();
     APP.registerWorker();
     APP.loadData();
+    // For a demo of using the <modal-notice> element based on an error...
+    // setTimeout(() => {
+    //   throw new CacheError('Sample Cache Error', APP.cacheName);
+    // }, 3000);
   },
   registerWorker() {
     if ('serviceWorker' in navigator) {
@@ -397,12 +402,20 @@ const APP = {
     });
   },
   displayError(err) {
-    console.warn(err);
-    //show error on page TODO: use a Web Component
+    // use a <modal-notice> web component to display the error
+    let modal = document.createElement('modal-notice');
+    modal.type = 'error'; //styling can be error, info, or success
+    modal.delay = 2000; //millisecond delay until self removal
+    modal.innerHTML = `<p slot="message">${err.message}</p>`;
+    document.body.append(modal);
+    modal.addEventListener('click', (ev) => {
+      ev.stopPropagation();
+      modal.remove(ev);
+    });
   },
   handleError(ev) {
-    //handle thrown errors
-    console.warn(ev);
+    //handle thrown errors through this global window error event listener
+    // console.warn(ev);
     //stops the error appearing in the console
     ev.preventDefault();
     let err = ev.error;
