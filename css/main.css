@@ -340,7 +340,8 @@ label[data-error]::after {
   section {
     top: 7rem;
   }
-  section h2 {
+  section h2,
+  section form {
     max-width: 1200px;
     margin-inline: auto;
   }
