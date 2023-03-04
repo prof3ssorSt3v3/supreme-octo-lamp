@@ -1,10 +1,12 @@
-const version = 10;
+const version = 11;
 const cacheName = `giftrPwaSiteFiles${version}`;
 const cacheList = [
   './',
   './index.html',
   './css/main.css',
   './js/app.js',
+  './js/error.js',
+  './js/modal-notice.js',
   './manifest.json',
   './img/favicon-16x16.png',
   './img/favicon-32x32.png',
