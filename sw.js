@@ -5,7 +5,7 @@ const cacheList = [
   './index.html',
   './css/main.css',
   './js/app.js',
-  './js/error.js',
+  './js/errors.js',
   './js/modal-notice.js',
   './manifest.json',
   './img/favicon-16x16.png',
